@@ -3,20 +3,29 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import cors from 'cors';
 
-
 const app = express();
-app.use(cors());
+
+// Use your exact frontend domain
+const FRONTEND_URL = "https://code-sender-frontend.vercel.app";
+
+app.use(cors({
+  origin: FRONTEND_URL,
+  methods: ['GET', 'POST'],
+  credentials: true
+}));
+
 app.use(express.json());
 
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: '*',
-    methods: ['GET', 'POST']
+    origin: FRONTEND_URL,
+    methods: ['GET', 'POST'],
+    credentials: true
   }
 });
 
-// Example: In-memory room storage (replace with DB for production)
+// In-memory room tracking (You can keep same logic)
 const rooms = {};
 
 io.on('connection', (socket) => {
@@ -56,6 +65,7 @@ io.on('connection', (socket) => {
   });
 });
 
+// PORT env used for deployment
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
