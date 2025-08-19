@@ -6,7 +6,7 @@ import cors from 'cors';
 const app = express();
 
 // Use your exact frontend domain
-const FRONTEND_URL = "https://code-sender-frontend.vercel.app";
+const FRONTEND_URL = "https://codesender.vercel.app/";
 
 app.use(cors({
   origin: FRONTEND_URL,
